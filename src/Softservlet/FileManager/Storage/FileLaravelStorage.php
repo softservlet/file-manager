@@ -35,8 +35,7 @@ class FileLaravelStorage extends AbstractStorage
 		$path = $this->path($descriptor->name());
 
 		file_put_contents($path, $contents);
-		return $this->schema().'://'.$path;
-	
+		return $this->schema().'://'.$path;	
 	}
 
 	/**
@@ -71,6 +70,16 @@ class FileLaravelStorage extends AbstractStorage
 
 		return $path;
 	}
-		
+
+
+	/**
+	 * @brief determines whether the file exists
+	 *
+	 * @return bool
+	 */
+	public function exists()
+	{
+		return file_exists($this->path.$this->fileDescriptor()->name());	
+	}		
 }	
 

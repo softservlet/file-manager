@@ -36,4 +36,11 @@ interface StorageInterface
 	 * @return FileDescriptoInterface
 	 */
 	public function fileDescriptor();
+
+	/**
+	 * @brief determines whether the file exists
+	 *
+	 * @return bool
+	 */
+	public function exists();
 }
