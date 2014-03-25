@@ -10,7 +10,6 @@ interface FileInterface
 	/**
 	 * @brief get the file URI
 	 *
-	 *
 	 * @return string uri
 	 */
 	public function uri();

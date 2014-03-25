@@ -8,11 +8,25 @@
 interface FileDescriptorInterface
 {
 	/**
+	 * @brief set the file
+	 * 
+	 * @param FileInterface file
+	 */
+	public function setFile(FileInterface $file);
+	
+	/**
+	 * @brief get the file object
+	 * 
+	 * @return FileInterface
+	 */
+	public function getFile(FileInterface $file);
+	
+	/**
 	 * @brief return the file mime type
 	 *
 	 * @return string mime type
 	 */
-	public function mime():
+	public function mime();
 
 	/**
 	 * @brief return the file cintents

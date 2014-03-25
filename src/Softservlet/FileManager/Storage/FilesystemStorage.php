@@ -2,6 +2,8 @@
 
 use Softservlet\FileManager\Deliver\UriParser;
 use Softservlet\FileManager\File\LocalFileDescriptor;
+use Softservlet\FileManager\File\FileInterface;
+use Softservlet\FileManager\File\FileDescriptorInterface;
 
 /**
  * @author Marius Leustean <marius@softservlet.com>
@@ -9,8 +11,22 @@ use Softservlet\FileManager\File\LocalFileDescriptor;
  * @version 1.0
  */
 
-class FileLaravelStorage extends AbstractStorage
+class FilesystemStorage extends AbstractStorage
 {
+	
+	/**
+	 * @brief the folder where to store the file
+	 * 
+	 * @var string
+	 */
+	protected $path;
+	
+	public function __construct(FileDescriptorInterface $descriptor, $path)
+	{
+		parent::__construct($descriptor);
+		$this->path = $path;		
+	}
+	
 	/**
 	 * @brief get the storage uri schema
 	 *
@@ -20,16 +36,15 @@ class FileLaravelStorage extends AbstractStorage
 	{
 		return 'file';
 	}
-
+	
 	/**
 	 * @brief store a file
 	 *
 	 * @return string URI where file was stored
 	 */
-	public function store()
-	{
-		$parser = new UriParser($this->file->uri());	
-		$descriptor = $this->fileDescriptor();
+	public function store(FileInterface $file)
+	{	
+		$descriptor = $this->fileDescriptor($file);
 		
 		$contents = $descriptor->contents();	
 		$path = $this->path($descriptor->name());
@@ -38,22 +53,16 @@ class FileLaravelStorage extends AbstractStorage
 		return $this->schema().'://'.$path;	
 	}
 
-	/**
-	 * @brief get the file descriptor
-	 *
-	 * @return FileDescriptorInterface
-	 */
-	public function fileDescriptor()
-	{	
-		return new LocalFileDescriptor($this->file);	
-	}
 	
 	/**
 	 * @brief delete a file
 	 *
 	 * @return void 
 	 */
-	public function delete();
+	public function delete(FileInterface $file)
+	{
+		@unlink($this->path($this->fileDescriptor($file)->name()));
+	}
 
 	/**
 	 * @brief Get the path where we store the files
@@ -62,10 +71,10 @@ class FileLaravelStorage extends AbstractStorage
 	 */
 	public function path($name = null)
 	{
-		$path = storage_path().'/work';
-
+		$path = $this->path;
+		
 		if(!is_null($name)) {
-			$path .= '/'.(trim($name),'/');
+			$path .= '/'.trim($name,'/');
 		}
 
 		return $path;
@@ -77,9 +86,9 @@ class FileLaravelStorage extends AbstractStorage
 	 *
 	 * @return bool
 	 */
-	public function exists()
+	public function exists(FileInterface $file)
 	{
-		return file_exists($this->path.$this->fileDescriptor()->name());	
+		return file_exists($this->path.$this->fileDescriptor($file)->name());	
 	}		
 }	
 

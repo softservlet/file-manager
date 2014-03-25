@@ -3,6 +3,7 @@
 use Illuminate\Support\ServiceProvider;
 use Softservlet\FileManager\Storage\StorageFactory;
 use Softservlet\FileManager\Storage\FileLaravelStorage;
+use Config;
 
 class FileManagerServiceProvider extends ServiceProvider {
 
@@ -20,11 +21,11 @@ class FileManagerServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('softservlet/file-manager');
-
-		StorageFactory::register(new FileLaravelStorage);
+		$this->package('softservlet/file-manager');	
 	}
+	
 
+	
 	/**
 	 * Register the service provider.
 	 *
@@ -32,7 +33,18 @@ class FileManagerServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		$this->app->singleton('storage', function($app) {
+			
+			$storage = new StorageFactory();
+			
+			$config =  (array) Config::get('file-manager::storage');
+			
+			foreach($config as $driver) {	
+				$storage->register($driver);
+			}
+			
+			return $storage;
+		});	
 	}
 
 	/**
@@ -42,7 +54,7 @@ class FileManagerServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array();
+		return array('storage');
 	}
 
 }

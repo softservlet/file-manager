@@ -25,16 +25,30 @@ class LocalFileDescriptor implements FileDescriptorInterface
 	 */
 	protected $location;
 
-
-	public function __construct(FileInterface $file)
+	/**
+	 * @brief set the file
+	 * 
+	 * @param FileInterface file
+	 */
+	public function setFile(FileInterface $file)
 	{
 		$this->file = $file;
-
-		$parser = new UriParser($this->file->uri());
-
-		$this->location = $parser->getLocation();
+		
+		$uri = new UriParser($file->uri());
+		
+		$this->location = $uri->getLocation();
 	}
-
+	
+	/**
+	 * @brief get the file object
+	 * 
+	 * @return FileInterface
+	 */
+	public function getFile(FileInterface $file)
+	{
+		return $this->file;
+	}
+	
 
 	/**
 	 * @brief return the file mime type

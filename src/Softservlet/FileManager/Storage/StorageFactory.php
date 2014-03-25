@@ -16,7 +16,7 @@ class StorageFactory
 	 *
 	 * @var array
 	 */
-	protected static $drivers;
+	protected $drivers = array();
 
 	/**
 	 * @brief Get the storage driver that corresponds to a file
@@ -25,11 +25,10 @@ class StorageFactory
 	 *
 	 * @return StorageInterface $storage
 	 */
-	public static function get(FileInterface $file)
+	public function get(FileInterface $file)
 	{
 		$uri = new UriParser($file->uri());	
-		$driver = static::findBySchema($uri->getSchema());	
-		$driver->setFile($file);
+		$driver = $this->findBySchema($uri->getSchema());	
 		return $driver;
 	}
 
@@ -38,7 +37,7 @@ class StorageFactory
 	 *
 	 * @return DriverInterface driver that matches
 	 */
-	public static function findBySchema($schema)
+	public function findBySchema($schema)
 	{
 		foreach($this->drivers as $driver) {
 			if($driver->schema() == $schema) {
@@ -56,15 +55,29 @@ class StorageFactory
 	 * 
      * @return void
 	 */
-	protected static function register(StorageInterface $storage)
-	{
-		foreach($this->drivers as $driver)
-		{
-			if(get_class($driver) == get_class($storage)) {
+	 public function register(StorageInterface $storage) 
+	 {
+		foreach ( $this->drivers as $driver ) {
+			if (get_class ( $driver ) == get_class ( $storage )) {
 				return false;
 			}
 		}
-
-		$this->drivers[] = $storage;
+		
+		$this->drivers [] = $storage;
+	}
+	
+	/**
+	 * @brief forward calls to specifi storage driver
+	 * 
+	 */
+	public function __call($name,$params)
+	{
+		if($params[0] instanceof FileInterface){
+			$uri = new UriParser($params[0]->uri());
+			$driver = $this->findBySchema($uri->getSchema());
+			return call_user_func_array(array($driver,$name),$params);
+		} else {
+			parent::__callStatic($name,$params);
+		}
 	}
 }	

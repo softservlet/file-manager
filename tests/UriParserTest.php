@@ -2,7 +2,7 @@
 
 use Softservlet\FileManager\Deliver\UriParser;
 
-class MainTest extends PHPUnit_Framework_TestCase 
+class UriParserTest  extends PHPUnit_Framework_TestCase 
 {
 	public function testUriParser()
 	{

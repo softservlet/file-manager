@@ -105,7 +105,7 @@ class UriParser
 	{
 		$split = preg_split('/\:\/{2}|\?|\#/i', $uri);
 
-		if(count($split) <= 2) {
+		if(count($split) < 2) {
 			throw new Exception(sprintf("The uri [%s] is not valid", $uri));
 		}
 

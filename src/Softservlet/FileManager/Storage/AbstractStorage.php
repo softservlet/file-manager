@@ -1,6 +1,9 @@
 <?php namespace Softservlet\FileManager\Storage;
 
 use Softservlet\FileManager\File\FileInterface;
+use Illuminate\Support\Facades\File;
+use Softservlet\FileManager\Deliver\UriParser;
+use Softservlet\FileManager\File\FileDescriptorInterface;
 
 /**
  * @author Marius Leustean <marius@softservlet.com>
@@ -17,22 +20,43 @@ abstract class AbstractStorage implements StorageInterface
 	protected $file;
 
 	/**
+	 * @brief store the file descriptor object
+	 * 
+	 *  @var FileDescriptorInterface
+	 */
+	protected $descriptor;
+	
+	/**
 	 * @brief class constructor
 	 *
 	 * @param FileInterface $file to handle
 	 */
-	public function __construct(FileInterface $file = null)
+	public function __construct(
+			FileDescriptorInterface $descriptor
+					
+	)
 	{
-		$this->file = $file;
+		$this->descriptor = $descriptor;
+	}
+	
+	/**
+	 * @brief get the file descriptor
+	 *
+	 * @return FileDescriptorInterface
+	 */
+	public function fileDescriptor(FileInterface $file)
+	{	
+		$this->descriptor->setFile($file);
+		
+		return $this->descriptor;
 	}
 
 	/**
-	 * @brief Set the file
+	 * @return the URiParser object for this File
 	 *
-	 * @param FileInterface $file
 	 */
-	public function setFile(FileInterface $file)
+	public function uri()
 	{
-		$this->file = $file;
+		return new UriParser($this->file->uri());
 	}
 }

@@ -21,26 +21,26 @@ interface StorageInterface
 	 *
 	 * @return string URI where file was stored
 	 */
-	public function store();
+	public function store(FileInterface $file);
 	
 	/**
 	 * @brief delete a file
 	 *
 	 * @return void 
 	 */
-	public function delete();
+	public function delete(FileInterface $file);
 
 	/**
 	 * @brief return the file descriptor
 	 *
 	 * @return FileDescriptoInterface
 	 */
-	public function fileDescriptor();
+	public function fileDescriptor(FileInterface $file);
 
 	/**
 	 * @brief determines whether the file exists
 	 *
 	 * @return bool
 	 */
-	public function exists();
+	public function exists(FileInterface $file);
 }
