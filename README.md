@@ -63,5 +63,25 @@ $uri = Storage::store($file);
 If you have an openstack storage implementation you will can call 
 
 ````php
-Storage::store($file, new OpenstackStorage)
+$uri = Storage::store($file, new OpenstackStorage)
+````
+
+#### Retrieve a file
+
+We've store a file, now we want to retrieve it from the storage mechanism.
+
+For this, we will use the `fileDescriptor()` method declared on `StorageInterface`, and wich is implemented by each storage driver.
+
+It accepts as parameter an `FileInterface` and return an `FileDescriptorInterface`.
+
+````php
+//we stored the file and got the $uri variable
+$file = new GenericFile($uri);
+
+$descriptor = Storage::fileDescriptor($file);
+
+//See Softservlet\FileManager\File\FileDescriptorInterface
+$contents = $descriptor->contents();
+$mime = $descriptor->mime();
+
 ````
