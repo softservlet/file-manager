@@ -1,15 +1,14 @@
 <?php namespace Softservlet\FileManager\Deliver;
 
-class DeliveryInterface
+use Softservlet\FileManager\File\FileInterface;
+
+interface DeliveryInterface
 {
 	/**
 	 * @brief get the schema that this driver works for
 	 * 
 	 * @return string schema
 	 */
-	public function deliver();
-	
-	/**
-	 * @brief 
-	 */
+	public function httpUrl(FileInterface $file);
+
 }
