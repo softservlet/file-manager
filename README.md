@@ -1,26 +1,24 @@
-### Delivering files
-The file delivery can be used in many ways.
-For example a type of delivery can be though http URL, another can be though storage path, another can be though CDN file ID.
-Any of this string we will call 'URI'.
+### Introduction
+
+This package allows you to store files on any place, even local filesystem, or cloud CDN, FTP servers etc.
+
+To accomplish this, a common way to describe a file location is needed.
 
 
-A file can be stored many ways:
- * file:///var/www/file.ext
- * http://domain.com/file.ext
- * foo://domain.com/file.ext
+Let's assume that you have a file stored on `/home/user/image.jpg`
 
-So a file is always stored in a location that matches the following pattern of URI: 
+We can tell about this file that it:
 	
-	<schema>:<locatie>[?<interogarea>][#<fragmentul>] 
+	* has the `file` storage schema
+	* has the `/home/user/image.jpg` location
+
+So, finally, we can describe it as `file:///home/user/image.jpg`
+
+In conclusion, any file is always stored in a location that matches the following pattern of URI: 
+	
+	<schema>:<location>[?<query>][#<fragment>] 
 
 For example if we store a file in openstack onbject storage we can have the following uri for it:
 
-	openstackv1://4281c348eaf83e70ddce0e07221c3d28
-
-Each file must have the following attributes:
-
- * URI
- * Name
- * MimeType
-
+	openstack://4281c348eaf83e70ddce0e07221c3d28
 
