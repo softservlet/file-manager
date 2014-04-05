@@ -40,20 +40,28 @@ Edit the `app/config/app.php` and add the following lines
 #### Store a file
 
 
-Firstly we will instantiate a new FileInterface implementation object, which accpets as parameter the URI of the FileInterface. 
+Firstly we will instantiate a new `FileInterface` implementation object, which accpets as parameter the URI of the FileInterface. 
+
 By default, if the URI doesn not conaint a schema then the file:// schema will be interpreted
 
 ````php
 use Softservlet\FileManager\File\GenericFile;
+
+//See Softservlet\FileManager\File\FileInterface
 $file = new GenericFile('/home/user/image.jpg');
 ````
-//We will call then the StorageFactory class
-//to store the file (for this Storage facade is used here)
-//The store method accepts as parameter an FileInterface
-//and optionally an StorageInterface instance.
-//if the StorageInterface is not given, the file will be
-//stored using the FilesystemStorage Driver.
-$uri = Storage::store($file);
+We will call then the `StorageFactory` class to store the file (for this Storage facade is used here).
 
-//if you have an openstack storage implementation you will
-//can call Storage::store($file, new OpenstackStorage)
+The `store` method accepts as parameter an FileInterface and optionally an `StorageInterface` instance.
+
+If the StorageInterface is not given, the file will be stored using the FilesystemStorage Driver.
+
+````php
+$uri = Storage::store($file);
+````
+
+If you have an openstack storage implementation you will can call 
+
+````php
+Storage::store($file, new OpenstackStorage)
+````
