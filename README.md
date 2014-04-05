@@ -68,7 +68,7 @@ $uri = Storage::store($file, new OpenstackStorage)
 
 #### Retrieve a file
 
-We've store a file, now we want to retrieve it from the storage mechanism.
+We stored a file, now we want to retrieve it from the storage mechanism.
 
 For this, we will use the `fileDescriptor()` method declared on `StorageInterface`, and wich is implemented by each storage driver.
 
@@ -84,4 +84,20 @@ $descriptor = Storage::fileDescriptor($file);
 $contents = $descriptor->contents();
 $mime = $descriptor->mime();
 
+````
+
+#### Delivering a file though http
+
+To get an http url for accessing a file, you may use an implementation of `DeliveryInterface`.
+
+Until now, there is an implementation for file stored with `FilesystemStorage` driver.
+
+````php
+use Softservlet\FileManager\Deliver\LocalHttpDelivery;
+
+$file = new GenericFile($uri);
+
+$delivery = new LocalHttpDelivery();
+
+$url = $delivery->httpUrl($file);
 ````
