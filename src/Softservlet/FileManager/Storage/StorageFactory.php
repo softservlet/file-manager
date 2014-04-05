@@ -67,6 +67,28 @@ class StorageFactory
 	}
 	
 	/**
+	 * @brief store a file in a simplier way
+	 * 
+	 * @param the FileInterface file to be stored
+	 * @param optional driver storage where to be stored
+	 * By default the same driver will be used (this 
+	 * scenario is the best when using local files)
+	 * 
+	 * @return string uri
+	 */
+	public function store(FileInterface $file, StorageInterface $driver = null)
+	{
+		$uri = new UriParser($file->uri());
+		
+		$storage = $this->findBySchema($uri->getSchema());
+
+		$driver = $driver === null ? $storage : $driver;
+		
+		return $driver->store($storage->fileDescriptor($file));
+		
+	}
+	
+	/**
 	 * @brief forward calls to specifi storage driver
 	 * 
 	 */

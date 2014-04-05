@@ -42,10 +42,8 @@ class FilesystemStorage extends AbstractStorage
 	 *
 	 * @return string URI where file was stored
 	 */
-	public function store(FileInterface $file)
+	public function store(FileDescriptorInterface $descriptor)
 	{	
-		$descriptor = $this->fileDescriptor($file);
-		
 		$contents = $descriptor->contents();	
 		$path = $this->path($descriptor->name());
 

@@ -1,6 +1,7 @@
 <?php namespace Softservlet\FileManager\Storage;
 
 use Softservlet\FileManager\File\FileInterface;
+use Softservlet\FileManager\File\FileDescriptorInterface;
 
 /**
  * @author Marius Leustean <marius@softservlet.com>
@@ -21,7 +22,7 @@ interface StorageInterface
 	 *
 	 * @return string URI where file was stored
 	 */
-	public function store(FileInterface $file);
+	public function store(FileDescriptorInterface $file);
 	
 	/**
 	 * @brief delete a file
