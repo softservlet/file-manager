@@ -40,17 +40,13 @@ Edit the `app/config/app.php` and add the following lines
 #### Store a file
 
 
+Firstly we will instantiate a new FileInterface implementation object, which accpets as parameter the URI of the FileInterface. 
+By default, if the URI doesn not conaint a schema then the file:// schema will be interpreted
 
 ````php
 use Softservlet\FileManager\File\GenericFile;
-
-//Firstly we will instantiate a new FileInterface
-//implementation object, which accpets as parameter
-//the URI of the FileInterface. 
-//By default, if the URI doesn not conaint a schema
-//then the file:// schema will be interpreted
 $file = new GenericFile('/home/user/image.jpg');
-
+````
 //We will call then the StorageFactory class
 //to store the file (for this Storage facade is used here)
 //The store method accepts as parameter an FileInterface
